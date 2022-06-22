@@ -13,7 +13,7 @@ describe('Component CurrencyForm', () => {
     it('should render without crashing', () => {
       render(<CurrencyForm action={() => {}} />);
     });
-    for (const testCase of testCases) {
+    for (const {amount, from, to} of testCases) {
     it('should run callback with proper data on submit', () => {
       const action = jest.fn();
 
@@ -25,17 +25,17 @@ describe('Component CurrencyForm', () => {
       const fromElem = screen.getByTestId('from');
       const toElem = screen.getByTestId('to');
 
-      userEvent.type(amountElem, testCase.amount);
-      userEvent.selectOptions(fromElem, testCase.from);
-      userEvent.selectOptions(toElem, testCase.to);
+      userEvent.type(amountElem, amount);
+      userEvent.selectOptions(fromElem, from);
+      userEvent.selectOptions(toElem, to);
 
       userEvent.click(submitButton);
 
       expect(action).toHaveBeenCalledTimes(1);
       expect(action).toHaveBeenCalledWith({
-        amount: +testCase.amount,
-        from: testCase.from,
-        to: testCase.to,
+        amount: +amount,
+        from,
+        to,
       });
     });
     cleanup();
